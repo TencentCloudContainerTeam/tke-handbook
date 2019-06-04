@@ -1,4 +1,5 @@
 # Kubernetes 泛域名动态 Service 转发解决方案
+
 ### 需求
 
 集群对外暴露了一个公网IP作为流量入口(可以是 Ingress 或 Service)，DNS 解析配置了一个泛域名指向该IP（比如 `*.test.imroc.io`），现希望根据请求中不同 Host 转发到不同的后端 Service。比如 `a.test.imroc.io` 的请求被转发到 `my-svc-a`，`b.test.imroc.io` 的请求转发到 `my-svc-b`

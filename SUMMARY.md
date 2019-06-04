@@ -14,3 +14,4 @@
 - [优雅热更新](best-practice/kubernetes-best-practice-grace-update.md)
 - [处理容器数据磁盘被写满](best-practice/kubernetes-best-practice-handle-disk-full.md)
 - [kubectl 高效技巧](best-practice/efficient-kubectl.md)
+- [Kubernetes 泛域名动态 Service 转发解决方案](best-practice/wildcard-domain-forward.md)
