@@ -14,7 +14,7 @@ $ kubectl describe pod/apigateway-6dc48bf8b6-clcwk -n cn-staging
 
 可能是磁盘满了，无法创建和删除 pod
 
-处理建议：参考 [Kubernetes 最佳实践：处理容器数据磁盘被写满](../best-practice/kubernetes-best-practice-handle-disk-full.md)
+处理建议是参考Kubernetes 最佳实践：[处理容器数据磁盘被写满](../best-practice/kubernetes-best-practice-handle-disk-full.md)
 
 ### DeadlineExceeded
 
