@@ -12,10 +12,12 @@ install:
   - npm install gitbook-cli -g
 
 script:
-  - gitbook build
+  - make build
 
 after_script:
   - cd _book
+  - git init
+  - git remote add origin https://${GH_REF}.git
   - git config user.name "roc"
   - git config user.email "rockerchen@tencent.com"
   - git add .
