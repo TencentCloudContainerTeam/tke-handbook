@@ -17,7 +17,7 @@ script:
 after_script:
   - cd _book
   - git init
-  - git remote add origin https://${GH_REF}.git
+  - git remote add origin https://${GH_REF}
   - git config user.name "roc"
   - git config user.email "rockerchen@tencent.com"
   - git add .
@@ -29,4 +29,4 @@ branches:
     - master
 env:
  global:
-   - GH_REF: github.com/TencentCloudContainerTeam/tke-handbook
+   - GH_REF: github.com/TencentCloudContainerTeam/tke-handbook.git
