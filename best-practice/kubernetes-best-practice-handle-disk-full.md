@@ -1,10 +1,11 @@
 # 处理容器数据磁盘被写满
 
-### 容器数据磁盘被写满造成的危害
+容器数据磁盘被写满造成的危害:
 - 不能创建 Pod (一直 ContainerCreating)
 - 不能删除 Pod (一直 Terminating)
 
-### 判断是否被写满
+判断是否被写满:
+
 容器数据目录大多会单独挂数据盘，路径一般是 `/var/lib/docker`，也可能是 `/data/docker` 或 `/opt/docker`，取决于节点被添加时的配置：
 
 ![](images/tke-select-data-disk.png)
@@ -29,8 +30,8 @@ Filesystem     1K-blocks     Used Available Use% Mounted on
 /dev/vdb        20511356 20511356         0 100% /var/lib/docker
 ```
 
-### 解决方法
-#### 先恢复业务，清理磁盘空间
+## 解决方法
+### 先恢复业务，清理磁盘空间
 重启 dockerd (清理容器日志输出和可写层文件)
 
 - 重启前需要稍微腾出一点空间，不然重启 docker 会失败，可以手动删除一些docker的log文件或可写层文件，通常删除log:
@@ -58,7 +59,7 @@ systemctl restart dockerd
 ``` bash
 kubectl uncordon 10.179.80.31
 ```
-#### 定位根因，彻底解决
+### 定位根因，彻底解决
 问题定位方法见附录，这里列举根因对应的解决方法：
 
 - 日志输出量大导致磁盘写满:
@@ -70,8 +71,8 @@ kubectl uncordon 10.179.80.31
   - 增大磁盘空间
   - 删除不需要的镜像
 
-### 附录
-#### 查看docker的磁盘空间占用情况
+## 附录
+### 查看docker的磁盘空间占用情况
 
 ``` bash
 $ docker system df -v
@@ -79,7 +80,7 @@ $ docker system df -v
 
 ![](images/docker-system-df.png)
 
-#### 定位容器写满磁盘的原因
+### 定位容器写满磁盘的原因
 进入容器数据目录(假设是 `/var/lib/docker`，并且存储驱动是 aufs):
 
 ``` bash
@@ -96,7 +97,7 @@ $ du -sh *
   - `diff` 子目录: 容器可写层，体积大说明可写层数据量大(程序在容器里写入文件)
   - `mnt` 子目录: 联合挂载点，内容为容器里看到的内容，即包含镜像本身内容以及可写层内容
 
-#### 找出日志输出量大的 pod
+### 找出日志输出量大的 pod
 TKE 的 pod 中每个容器输出的日志最大存储 1G (日志轮转，最大10个文件，每个文件最大100m，可用 `docker inpect` 查看):
 
 ``` bash
@@ -126,7 +127,7 @@ $ du -sh *
 
 目录名即为容器id，使用前几位与 `docker ps` 结果匹配可找出对应容器，最后就可以推算出是哪些 pod 搞的鬼
 
-#### 找出可写层数据量大的 pod
+### 找出可写层数据量大的 pod
 可写层的数据主要是容器内程序自身写入的，无法控制大小，可写层越大说明容器写入的文件越多或越大，通常是容器内程序将log写到文件里了，查看一下哪个容器的可写层数据量大：
 
 ``` bash
@@ -143,7 +144,7 @@ $ grep 834d97500892f56b24c6e63ffd4e520fc29c6c0d809a3472055116f59fb1d2be /var/lib
 ```
 `mounts` 后面一级的id即为容器id: `eb76fcd31dfbe5fc949b67e4ad717e002847d15334791715ff7d96bb2c8785f9`，使用前几位与 `docker ps` 结果匹配可找出对应容器，最后就可以推算出是哪些 pod 搞的鬼
 
-#### 找出体积大的镜像
+### 找出体积大的镜像
 看看哪些镜像比较占空间
 
 ![](images/docker-images.png)
