@@ -1,4 +1,4 @@
-# Kubernetes 泛域名动态 Service 转发解决方案
+# 泛域名动态 Service 转发解决方案
 
 ### 需求
 
