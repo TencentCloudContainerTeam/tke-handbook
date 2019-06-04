@@ -1,0 +1,30 @@
+language: node_js
+node_js: stable
+
+git:
+    submodules: false
+
+before_install:
+    - git checkout master
+    - git clone --depth 1 -b gh-pages https://${GH_REF} _book
+
+install:
+  - npm install gitbook-cli -g
+
+script:
+  - gitbook build
+
+after_script:
+  - cd _book
+  - git config user.name "roc"
+  - git config user.email "rockerchen@tencent.com"
+  - git add .
+  - git commit -m "Auto push from travis ci."
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" gh-pages:gh-pages
+
+branches:
+  only:
+    - master
+env:
+ global:
+   - GH_REF: github.com/TencentCloudContainerTeam/tke-handbook
