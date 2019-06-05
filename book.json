@@ -54,7 +54,7 @@
             "caption": "图片 - _CAPTION_"
         },
         "github-buttons": {
-            "repo": "imroc/kubernetes-the-gradual-way",
+            "repo": "TencentCloudContainerTeam/tke-handbook",
             "types": ["star"],
             "size": "small"
         },
