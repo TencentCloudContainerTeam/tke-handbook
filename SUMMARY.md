@@ -17,6 +17,7 @@
 - [Pod 状态一直 ContainerCreating](troubleshooting/pod-containercreating-forever.md)
 - [节点 NotReady](troubleshooting/node-notready.md)
 - [Service 无法解析](troubleshooting/service-cannot-resolve.md)
+- [LB 显示异常](troubleshooting/lb-abnormal.md)
 - [Job 无法被删除](troubleshooting/cannot-delete-job.md)
 
 ### k8s问题定位技巧
