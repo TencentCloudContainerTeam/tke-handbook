@@ -1,7 +1,5 @@
 # Pod 无法被 exec 和 logs
 
-## 原因
-
 通常是 apiserver --> kubelet:10250 之间的网络不通，10250 是 kubelet 提供接口的端口，`kubectl exec`和`kubectl logs` 的原理就是 apiserver 调 kubelet，kubelet 再调 dockerd 来实现的，所以要保证 kubelet 10250 端口对 apiserver 放通。
 
 - TKE托管集群通常不会出现此情况，master 不受节点安全组限制
