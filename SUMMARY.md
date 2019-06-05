@@ -10,6 +10,7 @@
 ### k8s问题排查
 
 - [Pod 状态一直 Terminating](troubleshooting/pod-terminating-forever.md)
+- [job 无法被删除](troubleshooting/cannot-delete-job.md)
 
 ### k8s问题定位技巧
 
