@@ -1,4 +1,4 @@
-# job 无法被删除
+# Job 无法被删除
 
 ## 原因
 - 可能是 k8s 的一个bug: https://github.com/kubernetes/kubernetes/issues/43168
