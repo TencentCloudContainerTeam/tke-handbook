@@ -15,6 +15,7 @@
 
 - [Pod 状态一直 Terminating](troubleshooting/pod-terminating-forever.md)
 - [Pod 状态一直 ContainerCreating](troubleshooting/pod-containercreating-forever.md)
+- [Pod 状态一直 Pending](troubleshooting/pod-pending-forever.md)
 - [节点 NotReady](troubleshooting/node-notready.md)
 - [Service 无法解析](troubleshooting/service-cannot-resolve.md)
 - [LB 显示异常](troubleshooting/lb-abnormal.md)
