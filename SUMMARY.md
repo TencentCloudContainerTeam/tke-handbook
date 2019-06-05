@@ -22,6 +22,7 @@
 - [无法访问集群外的服务](troubleshooting/cannot-visit-service-out-of-cluster.md)
 - [Pod 无法被 exec 和 logs](troubleshooting/pod-cannot-exec-or-logs.md)
 - [Job 无法被删除](troubleshooting/cannot-delete-job.md)
+- [服务不能被访问](troubleshooting/service-cannot-be-visited.md)
 
 ### k8s问题定位技巧
 
