@@ -47,9 +47,6 @@
           "modify_label": "Updated at",
           "modify_format": "YYYY-MM-DD HH:mm:ss"
         },
-        "theme-default": {
-            "showLevel": true
-        },
         "image-captions": {
             "caption": "图片 - _CAPTION_"
         },
