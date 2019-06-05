@@ -7,6 +7,10 @@
 - [利用 NAT 网关实现无公网 IP 机器访问外网](tke-skill/using-nat-gateway-visit-internet.md)
 - [在 TKE 中安装 metrics-server](tke-skill/install-metrics-server-on-tke.md)
 
+### TKE 使用相关
+
+- [挂载的nfs为何是10G](tke/why-nfs-10g.md)
+
 ### k8s问题排查
 
 - [Pod 状态一直 Terminating](troubleshooting/pod-terminating-forever.md)
