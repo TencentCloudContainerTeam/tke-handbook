@@ -5,6 +5,7 @@
 ### TKE 奇淫技巧
 
 - [利用 NAT 网关实现无公网 IP 机器访问外网](tke-skill/using-nat-gateway-visit-internet.md)
+- [在 TKE 中安装 metrics-server](tke-skill/install-metrics-server-on-tke.md)
 
 ### k8s问题排查
 
