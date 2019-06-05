@@ -34,6 +34,7 @@
 - [分析 ExitCode 定位程序退出原因](skill/analysis-exitcode.md)
 - [容器内抓包定位网络问题](skill/capture-packets-in-container.md)
 - [分析docker磁盘占用](skill/analysis-docker-disk.md)
+- [分析网络划分计算最大节点、service 与 pod数量](skill/analysis-cidr.md)
 
 ### k8s最佳实践
 
