@@ -20,6 +20,7 @@
 - [LB 显示异常](troubleshooting/lb-abnormal.md)
 - [集群内无法访问外网](troubleshooting/cannot-visit-internet.md)
 - [无法访问集群外的服务](troubleshooting/cannot-visit-service-out-of-cluster.md)
+- [Pod 无法被 exec 和 logs](troubleshooting/pod-cannot-exec-or-logs.md)
 - [Job 无法被删除](troubleshooting/cannot-delete-job.md)
 
 ### k8s问题定位技巧
