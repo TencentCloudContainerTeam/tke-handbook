@@ -11,6 +11,7 @@
 
 - [Pod 状态一直 Terminating](troubleshooting/pod-terminating-forever.md)
 - [Pod 状态一直 ContainerCreating](troubleshooting/pod-containercreating-forever.md)
+- [节点 NotReady](troubleshooting/node-notready.md)
 - [job 无法被删除](troubleshooting/cannot-delete-job.md)
 
 ### k8s问题定位技巧
