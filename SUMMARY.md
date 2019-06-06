@@ -29,6 +29,10 @@
 - [CBS 云盘挂载失败](troubleshooting/cbs-mount-fail.md)
 - [apiserver 响应慢](troubleshooting/slow-apiserver-response.md)
 
+### ISTIO问题排查
+
+- [网格内部无法访问外部](istio/cannot-visit-out-of-mesh.md)
+
 ### 躺过的坑
 
 - [K8S 对 IPVS 支持的 BUG]()
