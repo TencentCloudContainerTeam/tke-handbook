@@ -4,7 +4,7 @@
 
 对长连接扩容失效的问题，我们的解决方法是将长连接转换为短连接。我们参考了nginx keepalive的设计，nginx中keepalive_requests这个配置项设定了一个TCP连接能处理的最大请求数，达到设定值(比如1000)之后服务端会在http的Header头标记“Connection:close”，通知客户端处理完当前的请求后关闭连接，新的请求需要重新建立TCP连接，所以这个过程中不会出现请求失败，同时又达到了将长连接按需转换为短连接的目的。通过这个办法客户端和云K8S服务端处理完一批请求后不断的更新TCP连接，自动扩容的新Pod能接收到新的连接请求，从而解决了自动扩容失效的问题。
 
-以上处理逻辑用Golang实现示例代码如下（代码由Jasonsjiang提供）。由于Golang并没有提供方法可以获取到每个连接处理过的请求数，我们重写了net.Listener和net.Conn，注入请求计数器，对每个连接处理的请求做计数，并通过net.Conn.LocalAddr()获得计数值，判断达到阈值1000后在返回的Header中插入“Connection:close”通知客户端关闭连接，重新建立连接来发起请求。
+以上处理逻辑用Golang实现示例代码如下。由于Golang并没有提供方法可以获取到每个连接处理过的请求数，我们重写了net.Listener和net.Conn，注入请求计数器，对每个连接处理的请求做计数，并通过net.Conn.LocalAddr()获得计数值，判断达到阈值1000后在返回的Header中插入“Connection:close”通知客户端关闭连接，重新建立连接来发起请求。
 
 
 ``` go
