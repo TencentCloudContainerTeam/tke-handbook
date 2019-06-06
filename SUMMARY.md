@@ -29,6 +29,11 @@
 - [CBS 云盘挂载失败](troubleshooting/cbs-mount-fail.md)
 - [apiserver 响应慢](troubleshooting/slow-apiserver-response.md)
 
+### 躺过的坑
+
+- [K8S 对 IPVS 支持的 BUG]()
+- [开启tcp_tw_recycle内核参数在NAT环境会丢包]()
+
 ### k8s问题定位技巧
 
 - [分析 ExitCode 定位程序退出原因](skill/analysis-exitcode.md)
