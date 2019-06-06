@@ -53,4 +53,5 @@
 - [kubectl 高效技巧](best-practice/efficient-kubectl.md)
 - [泛域名动态 Service 转发解决方案](best-practice/wildcard-domain-forward.md)
 - [处理内存碎片化](best-practice/handle-memory-fragmentation.md)
+- [解决长连接服务扩容失效](best-practice/scale-keepalive-service.md)
 - [合理设置 request 和 limit](best-practice/set-request-limit.md)
