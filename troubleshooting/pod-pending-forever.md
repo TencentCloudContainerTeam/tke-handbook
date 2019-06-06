@@ -23,6 +23,10 @@
 
 ![](images/cvm-unmount-cbs.png)
 
+### 镜像无法下载
+
+看下 pod 的 event，看下是否是因为网络原因无法下载镜像或者下载私有镜像给的 secret 不对
+
 ### 低版本 kube-scheduler 的 bug
 
 可能是低版本 `kube-scheduler` 的 bug, 可以升级下调度器版本
