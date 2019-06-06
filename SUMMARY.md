@@ -1,6 +1,6 @@
 # Summary
 
-- [简介](README.md)
+- [序](README.md)
 
 ### TKE 奇淫技巧
 

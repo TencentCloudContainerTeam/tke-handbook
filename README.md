@@ -1,8 +1,6 @@
 # TKE 指南
 
-## 在线阅读
-
-https://tencentcloudcontainerteam.github.io/tke-handbook
+本书内容包含TKE的使用问题、技巧以及k8s本身的使用、踩坑经验、最佳实践、问题定位技巧等，形成一个系统化的参考指南以方便查阅，欢迎大家一起来补充完善。
 
 ## LICENSE
 
