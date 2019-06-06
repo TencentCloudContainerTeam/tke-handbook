@@ -32,7 +32,7 @@
 ### 躺过的坑
 
 - [K8S 对 IPVS 支持的 BUG]()
-- [开启tcp_tw_recycle内核参数在NAT环境会丢包]()
+- [开启tcp_tw_recycle内核参数在NAT环境会丢包](damn/lost-packets-once-enable-tcp-tw-recycle.md)
 
 ### k8s问题定位技巧
 
