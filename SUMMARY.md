@@ -25,10 +25,10 @@
 - [Pod 无法被 exec 和 logs](troubleshooting/pod-cannot-exec-or-logs.md)
 - [Job 无法被删除](troubleshooting/cannot-delete-job.md)
 - [服务不能被访问](troubleshooting/service-cannot-be-visited.md)
-- [伸缩组无法扩容](troubleshooting/autoscaler-not-working.md)
-- [PVC 显示 Pending](troubleshooting/pvc-pending.md)
-- [CBS 云盘挂载失败](troubleshooting/cbs-mount-fail.md)
-- [apiserver 响应慢](troubleshooting/slow-apiserver-response.md)
+- [伸缩组无法扩容]()
+- [PVC 显示 Pending]()
+- [CBS 云盘挂载失败]()
+- [apiserver 响应慢]()
 
 ### ISTIO问题排查
 
@@ -54,4 +54,5 @@
 - [泛域名动态 Service 转发解决方案](best-practice/wildcard-domain-forward.md)
 - [处理内存碎片化](best-practice/handle-memory-fragmentation.md)
 - [解决长连接服务扩容失效](best-practice/scale-keepalive-service.md)
-- [合理设置 request 和 limit](best-practice/set-request-limit.md)
+- [合理设置 request 和 limit]()
+- [使用自建 DNS 解析内部域名]()
