@@ -3,6 +3,7 @@
 容器数据磁盘被写满造成的危害:
 - 不能创建 Pod (一直 ContainerCreating)
 - 不能删除 Pod (一直 Terminating)
+- 无法 exec 到容器
 
 判断是否被写满:
 
