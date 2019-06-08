@@ -11,11 +11,11 @@
 
 ![](images/handle-memory-fragmentation-2.png)
 
-进一步查看的系统内存：
+进一步查看的系统内存(cache多可能是io导致的，为了提高io效率留下的缓存，这部分内存实际是可以释放的)：
 
 ![](images/handle-memory-fragmentation-3.png)
 
-查看slab：
+查看slab (后面的0多表示伙伴系统没有大块内存了)：
 
 ![](images/handle-memory-fragmentation-4.png)
 
