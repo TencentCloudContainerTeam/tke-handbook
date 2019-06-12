@@ -8,7 +8,7 @@ git clone https://github.com/kubernetes-incubator/metrics-server.git
 ``` yaml
       containers:
       - name: metrics-server
-        image: k8s.gcr.io/metrics-server-amd64:v0.3.1
+        image: ccr.ccs.tencentyun.com/mirrors/metrics-server-amd64:v0.3.1
         args: ["--kubelet-insecure-tls"] # 这里是新增的一行
         imagePullPolicy: Always
 ```
