@@ -13,3 +13,9 @@
   - https://github.com/kubernetes/kubernetes/issues/60688
 
 - 暂未验证新版是否彻底修复此 bug，感兴趣的同学可以验证下提 PR 到这里说明下
+
+## 无法使⽤ localhost+nodeport
+
+启用ipvs的情况下，使用localhost无法访问本机nodeport，这是一个已知bug，k8s本身也不会这样用，通常只有测试访问本机nodeport才会遇到这个问题，不影响生产环境的服务
+
+相关issue: https://github.com/kubernetes/kubernetes/issues/67730
