@@ -11,6 +11,7 @@
 ### TKE 使用相关
 
 - [挂载的nfs为何是10G](tke/why-nfs-10g.md)
+- [为什么 controller-manager 和 scheduler 状态显示 Unhealthy](tke/why-controller-manager-and-scheduler-unhealthy.md)
 
 ### k8s问题排查
 
