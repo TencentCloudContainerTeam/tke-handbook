@@ -1,5 +1,7 @@
 # 部分 DNS 查询延迟的原因与解决方案
 
+本文摘自腾讯云容器团队博文: [kubernetes集群中夺命的5秒DNS延迟](https://tencentcloudcontainerteam.github.io/2018/10/26/DNS-5-seconds-delay/)
+
 ## 超时问题
 客户反馈从pod中访问服务时，总是有些请求的响应时延会达到5秒。正常的响应只需要毫秒级别的时延。
 
