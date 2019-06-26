@@ -19,3 +19,9 @@
 启用ipvs的情况下，使用localhost无法访问本机nodeport，这是一个已知bug，k8s本身也不会这样用，通常只有测试访问本机nodeport才会遇到这个问题，不影响生产环境的服务
 
 相关issue: https://github.com/kubernetes/kubernetes/issues/67730
+
+
+## 所有节点的kube-proxy不能为新的service创建路由规则
+- 现象：是 kube-proxy 的 Netlink deadlock 的 bug 导致
+- issue: https://github.com/kubernetes/kubernetes/issues/71071
+- 1.14 版本已修复，修复的 PR: https://github.com/kubernetes/kubernetes/pull/72361
