@@ -6,6 +6,7 @@
 
 - [利用 NAT 网关实现无公网 IP 机器访问外网](tke-skill/using-nat-gateway-visit-internet.md)
 - [在 TKE 中安装 metrics-server](tke-skill/install-metrics-server-on-tke.md)
+- [RBAC细化集群的操作权限](tke-skill/tke-rbac.md)
 - [自定义节点的操作系统]()
 
 ### TKE 使用相关
