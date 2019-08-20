@@ -55,7 +55,7 @@ rules:
 
 2 RoleBinding或者ClusterRoleBinding
 
-用于将角色和ServiceAccount绑定。同样，根据生效的访问又分为RoleBinding 和ClusterRoleBinding，其中，RoleBinding可以引用在同一命名空间下的Role对象，也可以引用一个ClusterRole；而ClusterRoleBinding只能引用ClusterRole对象。比如将ServiceAccount对象hale，绑一个ClusterRole权限（secret-reader）：
+用于将角色和ServiceAccount绑定。同样，根据生效的范围又分为RoleBinding 和ClusterRoleBinding，其中，RoleBinding可以引用在同一命名空间下的Role对象，也可以引用一个ClusterRole；而ClusterRoleBinding只能引用ClusterRole对象。比如将ServiceAccount对象hale，绑一个ClusterRole权限（secret-reader）：
 
 ```yaml
 kind: RoleBinding
@@ -72,6 +72,8 @@ roleRef:
   name: secret-reader
   apiGroup: rbac.authorization.k8s.io
 ```
+
+更多参考：<https://kubernetes.io/docs/reference/access-authn-authz/rbac/>
 
 ####  TKE开启公网访问或者内网访问
 
