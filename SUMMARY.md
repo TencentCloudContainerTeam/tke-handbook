@@ -41,6 +41,7 @@
 - [K8S 对 IPVS 支持的 BUG](damn/k8s-ipvs-bug.md)
 - [开启tcp_tw_recycle内核参数在NAT环境会丢包](damn/lost-packets-once-enable-tcp-tw-recycle.md)
 - [部分 DNS 查询延迟的原因与解决方案](damn/dns-lookup-delay.md)
+- [Rancher 清除 Node 导致集群异常](damn/rancher-remove-node.md)
 
 ### k8s问题定位技巧
 
