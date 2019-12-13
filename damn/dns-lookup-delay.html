@@ -1,0 +1,991 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>部分 DNS 查询延迟的原因与解决方案 · TKE Handbook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="roc">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-image-captions/image-captions.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="rancher-remove-node.html" />
+    
+    
+    <link rel="prev" href="lost-packets-once-enable-tcp-tw-recycle.html" />
+    
+
+    
+        <link rel="shortcut icon" href='../favicon.ico' type="image/x-icon">
+    
+    
+        <link rel="bookmark" href='../favicon.ico' type="image/x-icon">
+    
+    
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"TencentCloudContainerTeam/tke-handbook","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://imroc.io" target="_blank" class="custom-link">roc</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    序
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">TKE 奇淫技巧</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../tke-skill/using-nat-gateway-visit-internet.html">
+            
+                <a href="../tke-skill/using-nat-gateway-visit-internet.html">
+            
+                    
+                    利用 NAT 网关实现无公网 IP 机器访问外网
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../tke-skill/install-metrics-server-on-tke.html">
+            
+                <a href="../tke-skill/install-metrics-server-on-tke.html">
+            
+                    
+                    在 TKE 中安装 metrics-server
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../tke-skill/tke-rbac.html">
+            
+                <a href="../tke-skill/tke-rbac.html">
+            
+                    
+                    RBAC细化集群的操作权限
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" >
+            
+                <span>
+            
+                    
+                    自定义节点的操作系统
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">TKE 使用相关</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../tke/why-nfs-10g.html">
+            
+                <a href="../tke/why-nfs-10g.html">
+            
+                    
+                    挂载的nfs为何是10G
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../tke/why-controller-manager-and-scheduler-unhealthy.html">
+            
+                <a href="../tke/why-controller-manager-and-scheduler-unhealthy.html">
+            
+                    
+                    为什么 controller-manager 和 scheduler 状态显示 Unhealthy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">k8s问题排查</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../troubleshooting/pod-terminating-forever.html">
+            
+                <a href="../troubleshooting/pod-terminating-forever.html">
+            
+                    
+                    Pod 状态一直 Terminating
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../troubleshooting/pod-containercreating-forever.html">
+            
+                <a href="../troubleshooting/pod-containercreating-forever.html">
+            
+                    
+                    Pod 状态一直 ContainerCreating
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../troubleshooting/pod-pending-forever.html">
+            
+                <a href="../troubleshooting/pod-pending-forever.html">
+            
+                    
+                    Pod 状态一直 Pending
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../troubleshooting/node-notready.html">
+            
+                <a href="../troubleshooting/node-notready.html">
+            
+                    
+                    节点 NotReady
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../troubleshooting/service-cannot-resolve.html">
+            
+                <a href="../troubleshooting/service-cannot-resolve.html">
+            
+                    
+                    Service 无法解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../troubleshooting/lb-abnormal.html">
+            
+                <a href="../troubleshooting/lb-abnormal.html">
+            
+                    
+                    LB 显示异常
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../troubleshooting/cannot-visit-internet.html">
+            
+                <a href="../troubleshooting/cannot-visit-internet.html">
+            
+                    
+                    集群内无法访问外网
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.8" data-path="../troubleshooting/cannot-visit-service-out-of-cluster.html">
+            
+                <a href="../troubleshooting/cannot-visit-service-out-of-cluster.html">
+            
+                    
+                    无法访问集群外的服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.9" data-path="../troubleshooting/pod-cannot-exec-or-logs.html">
+            
+                <a href="../troubleshooting/pod-cannot-exec-or-logs.html">
+            
+                    
+                    Pod 无法被 exec 和 logs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.10" data-path="../troubleshooting/cannot-delete-job.html">
+            
+                <a href="../troubleshooting/cannot-delete-job.html">
+            
+                    
+                    Job 无法被删除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.11" data-path="../troubleshooting/service-cannot-be-visited.html">
+            
+                <a href="../troubleshooting/service-cannot-be-visited.html">
+            
+                    
+                    服务不能被访问
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.12" >
+            
+                <span>
+            
+                    
+                    伸缩组无法扩容
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.13" >
+            
+                <span>
+            
+                    
+                    PVC 显示 Pending
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.14" >
+            
+                <span>
+            
+                    
+                    CBS 云盘挂载失败
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.15" >
+            
+                <span>
+            
+                    
+                    apiserver 响应慢
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">ISTIO问题排查</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../istio/cannot-visit-out-of-mesh.html">
+            
+                <a href="../istio/cannot-visit-out-of-mesh.html">
+            
+                    
+                    网格内部无法访问外部
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">躺过的坑</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="k8s-ipvs-bug.html">
+            
+                <a href="k8s-ipvs-bug.html">
+            
+                    
+                    K8S 对 IPVS 支持的 BUG
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="lost-packets-once-enable-tcp-tw-recycle.html">
+            
+                <a href="lost-packets-once-enable-tcp-tw-recycle.html">
+            
+                    
+                    开启tcp_tw_recycle内核参数在NAT环境会丢包
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="6.3" data-path="dns-lookup-delay.html">
+            
+                <a href="dns-lookup-delay.html">
+            
+                    
+                    部分 DNS 查询延迟的原因与解决方案
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="rancher-remove-node.html">
+            
+                <a href="rancher-remove-node.html">
+            
+                    
+                    Rancher 清除 Node 导致集群异常
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">k8s问题定位技巧</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../skill/analysis-exitcode.html">
+            
+                <a href="../skill/analysis-exitcode.html">
+            
+                    
+                    分析 ExitCode 定位程序退出原因
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="../skill/capture-packets-in-container.html">
+            
+                <a href="../skill/capture-packets-in-container.html">
+            
+                    
+                    容器内抓包定位网络问题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="../skill/analysis-docker-disk.html">
+            
+                <a href="../skill/analysis-docker-disk.html">
+            
+                    
+                    分析docker磁盘占用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="../skill/analysis-cidr.html">
+            
+                <a href="../skill/analysis-cidr.html">
+            
+                    
+                    分析网络划分计算最大节点、service 与 pod数量
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">k8s最佳实践</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../best-practice/kubernetes-best-practice-grace-update.html">
+            
+                <a href="../best-practice/kubernetes-best-practice-grace-update.html">
+            
+                    
+                    优雅热更新
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../best-practice/kubernetes-best-practice-handle-disk-full.html">
+            
+                <a href="../best-practice/kubernetes-best-practice-handle-disk-full.html">
+            
+                    
+                    处理容器数据磁盘被写满
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="../best-practice/efficient-kubectl.html">
+            
+                <a href="../best-practice/efficient-kubectl.html">
+            
+                    
+                    kubectl 高效技巧
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="../best-practice/wildcard-domain-forward.html">
+            
+                <a href="../best-practice/wildcard-domain-forward.html">
+            
+                    
+                    泛域名动态 Service 转发解决方案
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="../best-practice/handle-memory-fragmentation.html">
+            
+                <a href="../best-practice/handle-memory-fragmentation.html">
+            
+                    
+                    处理内存碎片化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.6" data-path="../best-practice/scale-keepalive-service.html">
+            
+                <a href="../best-practice/scale-keepalive-service.html">
+            
+                    
+                    解决长连接服务扩容失效
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.7" >
+            
+                <span>
+            
+                    
+                    合理设置 request 和 limit
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.8" >
+            
+                <span>
+            
+                    
+                    使用自建 DNS 解析内部域名
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >部分 DNS 查询延迟的原因与解决方案</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x90E8;&#x5206;-dns-&#x67E5;&#x8BE2;&#x5EF6;&#x8FDF;&#x7684;&#x539F;&#x56E0;&#x4E0E;&#x89E3;&#x51B3;&#x65B9;&#x6848;">&#x90E8;&#x5206; DNS &#x67E5;&#x8BE2;&#x5EF6;&#x8FDF;&#x7684;&#x539F;&#x56E0;&#x4E0E;&#x89E3;&#x51B3;&#x65B9;&#x6848;</h1>
+<p>&#x672C;&#x6587;&#x6458;&#x81EA;&#x817E;&#x8BAF;&#x4E91;&#x5BB9;&#x5668;&#x56E2;&#x961F;&#x535A;&#x6587;: <a href="https://tencentcloudcontainerteam.github.io/2018/10/26/DNS-5-seconds-delay/" target="_blank">kubernetes&#x96C6;&#x7FA4;&#x4E2D;&#x593A;&#x547D;&#x7684;5&#x79D2;DNS&#x5EF6;&#x8FDF;</a></p>
+<h2 id="&#x8D85;&#x65F6;&#x95EE;&#x9898;">&#x8D85;&#x65F6;&#x95EE;&#x9898;</h2>
+<p>&#x5BA2;&#x6237;&#x53CD;&#x9988;&#x4ECE;pod&#x4E2D;&#x8BBF;&#x95EE;&#x670D;&#x52A1;&#x65F6;&#xFF0C;&#x603B;&#x662F;&#x6709;&#x4E9B;&#x8BF7;&#x6C42;&#x7684;&#x54CD;&#x5E94;&#x65F6;&#x5EF6;&#x4F1A;&#x8FBE;&#x5230;5&#x79D2;&#x3002;&#x6B63;&#x5E38;&#x7684;&#x54CD;&#x5E94;&#x53EA;&#x9700;&#x8981;&#x6BEB;&#x79D2;&#x7EA7;&#x522B;&#x7684;&#x65F6;&#x5EF6;&#x3002;</p>
+<h2 id="dns-5&#x79D2;&#x5EF6;&#x65F6;">DNS 5&#x79D2;&#x5EF6;&#x65F6;</h2>
+<p>&#x5728;pod&#x4E2D;(&#x901A;&#x8FC7;nsenter -n tcpdump)&#x6293;&#x5305;&#xFF0C;&#x53D1;&#x73B0;&#x662F;&#x6709;&#x7684;DNS&#x8BF7;&#x6C42;&#x6CA1;&#x6709;&#x6536;&#x5230;&#x54CD;&#x5E94;&#xFF0C;&#x8D85;&#x65F6;5&#x79D2;&#x540E;&#xFF0C;&#x518D;&#x6B21;&#x53D1;&#x9001;DNS&#x8BF7;&#x6C42;&#x624D;&#x6210;&#x529F;&#x6536;&#x5230;&#x54CD;&#x5E94;&#x3002;</p>
+<p>&#x5728;kube-dns pod&#x6293;&#x5305;&#xFF0C;&#x53D1;&#x73B0;&#x662F;&#x6709;DNS&#x8BF7;&#x6C42;&#x6CA1;&#x6709;&#x5230;&#x8FBE;kube-dns pod&#xFF0C; &#x5728;&#x4E2D;&#x9014;&#x88AB;&#x4E22;&#x5F03;&#x4E86;&#x3002;</p>
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#x662F;5&#x79D2;&#xFF1F; <code>man resolv.conf</code>&#x53EF;&#x4EE5;&#x770B;&#x5230;glibc&#x7684;resolver&#x7684;&#x7F3A;&#x7701;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x662F;5s&#x3002;</p>
+<h2 id="&#x4E22;&#x5305;&#x539F;&#x56E0;">&#x4E22;&#x5305;&#x539F;&#x56E0;</h2>
+<p>&#x7ECF;&#x8FC7;&#x641C;&#x7D22;&#x53D1;&#x73B0;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x666E;&#x904D;&#x95EE;&#x9898;&#x3002;
+&#x6839;&#x672C;&#x539F;&#x56E0;&#x662F;&#x5185;&#x6838;conntrack&#x6A21;&#x5757;&#x7684;bug&#xFF0C;netfilter&#x505A;NAT&#x65F6;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x8D44;&#x6E90;&#x7ADE;&#x4E89;&#x5BFC;&#x81F4;&#x90E8;&#x5206;&#x62A5;&#x6587;&#x4E22;&#x5F03;&#x3002;</p>
+<p>Weave works&#x7684;&#x5DE5;&#x7A0B;&#x5E08;<a href="martynas@weave.works">Martynas Pumputis</a>&#x5BF9;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x505A;&#x4E86;&#x5F88;&#x8BE6;&#x7EC6;&#x7684;&#x5206;&#x6790;&#xFF1A;
+<a href="https://www.weave.works/blog/racy-conntrack-and-dns-lookup-timeouts" target="_blank">https://www.weave.works/blog/racy-conntrack-and-dns-lookup-timeouts</a></p>
+<p>&#x76F8;&#x5173;&#x7ED3;&#x8BBA;&#xFF1A;</p>
+<ul>
+<li>&#x53EA;&#x6709;&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#x6216;&#x8FDB;&#x7A0B;&#xFF0C;&#x5E76;&#x53D1;&#x4ECE;&#x540C;&#x4E00;&#x4E2A;socket&#x53D1;&#x9001;&#x76F8;&#x540C;&#x4E94;&#x5143;&#x7EC4;&#x7684;UDP&#x62A5;&#x6587;&#x65F6;&#xFF0C;&#x624D;&#x6709;&#x4E00;&#x5B9A;&#x6982;&#x7387;&#x4F1A;&#x53D1;&#x751F;</li>
+<li>glibc, musl(alpine linux&#x7684;libc&#x5E93;)&#x90FD;&#x4F7F;&#x7528;&quot;parallel query&quot;, &#x5C31;&#x662F;&#x5E76;&#x53D1;&#x53D1;&#x51FA;&#x591A;&#x4E2A;&#x67E5;&#x8BE2;&#x8BF7;&#x6C42;&#xFF0C;&#x56E0;&#x6B64;&#x5F88;&#x5BB9;&#x6613;&#x78B0;&#x5230;&#x8FD9;&#x6837;&#x7684;&#x51B2;&#x7A81;&#xFF0C;&#x9020;&#x6210;&#x67E5;&#x8BE2;&#x8BF7;&#x6C42;&#x88AB;&#x4E22;&#x5F03;</li>
+<li>&#x7531;&#x4E8E;ipvs&#x4E5F;&#x4F7F;&#x7528;&#x4E86;conntrack, &#x4F7F;&#x7528;kube-proxy&#x7684;ipvs&#x6A21;&#x5F0F;&#xFF0C;&#x5E76;&#x4E0D;&#x80FD;&#x907F;&#x514D;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;</li>
+</ul>
+<h2 id="&#x95EE;&#x9898;&#x7684;&#x6839;&#x672C;&#x89E3;&#x51B3;">&#x95EE;&#x9898;&#x7684;&#x6839;&#x672C;&#x89E3;&#x51B3;</h2>
+<p>Martynas&#x5411;&#x5185;&#x6838;&#x63D0;&#x4EA4;&#x4E86;&#x4E24;&#x4E2A;patch&#x6765;fix&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x4E0D;&#x8FC7;&#x4ED6;&#x8BF4;&#x5982;&#x679C;&#x96C6;&#x7FA4;&#x4E2D;&#x6709;&#x591A;&#x4E2A;DNS server&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x95EE;&#x9898;&#x5E76;&#x6CA1;&#x6709;&#x5B8C;&#x5168;&#x89E3;&#x51B3;&#x3002;</p>
+<p>&#x5176;&#x4E2D;&#x4E00;&#x4E2A;patch&#x5DF2;&#x7ECF;&#x5728;2018-7-18&#x88AB;&#x5408;&#x5E76;&#x5230;linux&#x5185;&#x6838;&#x4E3B;&#x7EBF;&#x4E2D;: <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ed07d9a021df6da53456663a76999189badc432a" target="_blank">netfilter: nf_conntrack: resolve clash for matching conntracks</a></p>
+<p>&#x76EE;&#x524D;&#x53EA;&#x6709;4.19.rc &#x7248;&#x672C;&#x5305;&#x542B;&#x8FD9;&#x4E2A;patch&#x3002;</p>
+<h2 id="&#x89C4;&#x907F;&#x529E;&#x6CD5;">&#x89C4;&#x907F;&#x529E;&#x6CD5;</h2>
+<h4 id="&#x89C4;&#x907F;&#x65B9;&#x6848;&#x4E00;&#xFF1A;&#x4F7F;&#x7528;tcp&#x53D1;&#x9001;dns&#x8BF7;&#x6C42;">&#x89C4;&#x907F;&#x65B9;&#x6848;&#x4E00;&#xFF1A;&#x4F7F;&#x7528;TCP&#x53D1;&#x9001;DNS&#x8BF7;&#x6C42;</h4>
+<p>&#x7531;&#x4E8E;TCP&#x6CA1;&#x6709;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x6709;&#x4EBA;&#x63D0;&#x51FA;&#x53EF;&#x4EE5;&#x5728;&#x5BB9;&#x5668;&#x7684;resolv.conf&#x4E2D;&#x589E;&#x52A0;<code>options use-vc</code>, &#x5F3A;&#x5236;glibc&#x4F7F;&#x7528;TCP&#x534F;&#x8BAE;&#x53D1;&#x9001;DNS query&#x3002;&#x4E0B;&#x9762;&#x662F;&#x8FD9;&#x4E2A;man resolv.conf&#x4E2D;&#x5173;&#x4E8E;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7684;&#x8BF4;&#x660E;&#xFF1A;</p>
+<pre><code>use-vc (since glibc 2.14)
+                     Sets RES_USEVC in _res.options.  This option forces the
+                     use of TCP for DNS resolutions.
+</code></pre><p>&#x7B14;&#x8005;&#x4F7F;&#x7528;&#x955C;&#x50CF;&quot;busybox:1.29.3-glibc&quot; (libc 2.24)  &#x505A;&#x4E86;&#x8BD5;&#x9A8C;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x89C1;&#x5230;&#x8FD9;&#x6837;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x5BB9;&#x5668;&#x4ECD;&#x7136;&#x662F;&#x901A;&#x8FC7;UDP&#x53D1;&#x9001;DNS&#x8BF7;&#x6C42;&#x3002;</p>
+<h4 id="&#x89C4;&#x907F;&#x65B9;&#x6848;&#x4E8C;&#xFF1A;&#x907F;&#x514D;&#x76F8;&#x540C;&#x4E94;&#x5143;&#x7EC4;dns&#x8BF7;&#x6C42;&#x7684;&#x5E76;&#x53D1;">&#x89C4;&#x907F;&#x65B9;&#x6848;&#x4E8C;&#xFF1A;&#x907F;&#x514D;&#x76F8;&#x540C;&#x4E94;&#x5143;&#x7EC4;DNS&#x8BF7;&#x6C42;&#x7684;&#x5E76;&#x53D1;</h4>
+<p>resolv.conf&#x8FD8;&#x6709;&#x53E6;&#x5916;&#x4E24;&#x4E2A;&#x76F8;&#x5173;&#x7684;&#x53C2;&#x6570;&#xFF1A; </p>
+<ul>
+<li>single-request-reopen (since glibc 2.9)</li>
+<li>single-request (since glibc 2.10)</li>
+</ul>
+<p>man resolv.conf&#x4E2D;&#x89E3;&#x91CA;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>single-request-reopen (since glibc 2.9)
+                     Sets RES_SNGLKUPREOP in _res.options.  The resolver
+                     uses the same socket for the A and AAAA requests.  Some
+                     hardware mistakenly sends back only one reply.  When
+                     that happens the client system will sit and wait for
+                     the second reply.  Turning this option on changes this
+                     behavior so that if two requests from the same port are
+                     not handled correctly it will close the socket and open
+                     a new one before sending the second request.
+
+single-request (since glibc 2.10)
+                     Sets RES_SNGLKUP in _res.options.  By default, glibc
+                     performs IPv4 and IPv6 lookups in parallel since
+                     version 2.9.  Some appliance DNS servers cannot handle
+                     these queries properly and make the requests time out.
+                     This option disables the behavior and makes glibc
+                     perform the IPv6 and IPv4 requests sequentially (at the
+                     cost of some slowdown of the resolving process).
+</code></pre><p>&#x7B14;&#x8005;&#x505A;&#x4E86;&#x8BD5;&#x9A8C;&#xFF0C;&#x53D1;&#x73B0;&#x6548;&#x679C;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<ul>
+<li>single-request-reopen
+&#x53D1;&#x9001;A&#x7C7B;&#x578B;&#x8BF7;&#x6C42;&#x548C;AAAA&#x7C7B;&#x578B;&#x8BF7;&#x6C42;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x6E90;&#x7AEF;&#x53E3;&#x3002;&#x8FD9;&#x6837;&#x4E24;&#x4E2A;&#x8BF7;&#x6C42;&#x5728;conntrack&#x8868;&#x4E2D;&#x4E0D;&#x5360;&#x7528;&#x540C;&#x4E00;&#x4E2A;&#x8868;&#x9879;&#xFF0C;&#x4ECE;&#x800C;&#x907F;&#x514D;&#x51B2;&#x7A81;&#x3002;</li>
+<li>single-request
+&#x907F;&#x514D;&#x5E76;&#x53D1;&#xFF0C;&#x6539;&#x4E3A;&#x4E32;&#x884C;&#x53D1;&#x9001;A&#x7C7B;&#x578B;&#x548C;AAAA&#x7C7B;&#x578B;&#x8BF7;&#x6C42;&#x3002;&#x6CA1;&#x6709;&#x4E86;&#x5E76;&#x53D1;&#xFF0C;&#x4ECE;&#x800C;&#x4E5F;&#x907F;&#x514D;&#x4E86;&#x51B2;&#x7A81;&#x3002;</li>
+</ul>
+<p>&#x8981;&#x7ED9;&#x5BB9;&#x5668;&#x7684;resolv.conf&#x52A0;&#x4E0A;options&#x53C2;&#x6570;&#xFF0C;&#x6709;&#x51E0;&#x4E2A;&#x529E;&#x6CD5;&#xFF1A;</p>
+<h5 id="1-&#x5728;&#x5BB9;&#x5668;&#x7684;entrypoint&#x6216;&#x8005;cmd&#x811A;&#x672C;&#x4E2D;&#xFF0C;&#x6267;&#x884C;binecho-options-single-request-reopen--etcresolvconf">1) &#x5728;&#x5BB9;&#x5668;&#x7684;&quot;ENTRYPOINT&quot;&#x6216;&#x8005;&quot;CMD&quot;&#x811A;&#x672C;&#x4E2D;&#xFF0C;&#x6267;&#x884C;<code>/bin/echo &apos;options single-request-reopen&apos; &gt;&gt; /etc/resolv.conf</code></h5>
+<h5 id="2-&#x5728;pod&#x7684;poststart-hook&#x4E2D;&#xFF1A;">2) &#x5728;pod&#x7684;postStart hook&#x4E2D;&#xFF1A;</h5>
+<pre><code>        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /bin/sh
+              - -c 
+              - &quot;/bin/echo &apos;options single-request-reopen&apos; &gt;&gt; /etc/resolv.conf&quot;
+</code></pre><h5 id="3-&#x4F7F;&#x7528;templatespecdnsconfig-k8s-v19-&#x53CA;&#x4EE5;&#x4E0A;&#x624D;&#x652F;&#x6301;">3) &#x4F7F;&#x7528;template.spec.dnsConfig (k8s v1.9 &#x53CA;&#x4EE5;&#x4E0A;&#x624D;&#x652F;&#x6301;):</h5>
+<pre><code>  template:
+    spec:
+      dnsConfig:
+        options:
+          - name: single-request-reopen
+</code></pre><h5 id="4-&#x4F7F;&#x7528;configmap&#x8986;&#x76D6;pod&#x91CC;&#x9762;&#x7684;etcresolvconf">4) &#x4F7F;&#x7528;ConfigMap&#x8986;&#x76D6;POD&#x91CC;&#x9762;&#x7684;/etc/resolv.conf</h5>
+<p>configmap:</p>
+<pre><code>apiVersion: v1
+data:
+  resolv.conf: |
+    nameserver 1.2.3.4
+    search default.svc.cluster.local svc.cluster.local cluster.local ec2.internal
+    options ndots:5 single-request-reopen timeout:1
+kind: ConfigMap
+metadata:
+  name: resolvconf
+</code></pre><p>POD spec:</p>
+<pre><code>        volumeMounts:
+        - name: resolv-conf
+          mountPath: /etc/resolv.conf
+          subPath: resolv.conf
+...
+
+      volumes:
+      - name: resolv-conf
+        configMap:
+          name: resolvconf
+          items:
+          - key: resolv.conf
+            path: resolv.conf
+</code></pre><h5 id="5-&#x4F7F;&#x7528;mutatingadmissionwebhook">5) &#x4F7F;&#x7528;MutatingAdmissionWebhook</h5>
+<p><a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#mutatingadmissionwebhook-beta-in-1-9" target="_blank">MutatingAdmissionWebhook</a> &#x662F;1.9&#x5F15;&#x5165;&#x7684;Controller&#xFF0C;&#x7528;&#x4E8E;&#x5BF9;&#x4E00;&#x4E2A;&#x6307;&#x5B9A;&#x7684;Resource&#x7684;&#x64CD;&#x4F5C;&#x4E4B;&#x524D;&#xFF0C;&#x5BF9;&#x8FD9;&#x4E2A;resource&#x8FDB;&#x884C;&#x53D8;&#x66F4;&#x3002;
+istio&#x7684;&#x81EA;&#x52A8;sidecar&#x6CE8;&#x5165;&#x5C31;&#x662F;&#x7528;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#x3002; &#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;MutatingAdmissionWebhook&#xFF0C;&#x6765;&#x81EA;&#x52A8;&#x7ED9;&#x6240;&#x6709;POD&#xFF0C;&#x6CE8;&#x5165;&#x4EE5;&#x4E0A;3)&#x6216;&#x8005;4)&#x6240;&#x9700;&#x8981;&#x7684;&#x76F8;&#x5173;&#x5185;&#x5BB9;&#x3002;</p>
+<hr>
+<p>&#x4EE5;&#x4E0A;&#x65B9;&#x6CD5;&#x4E2D;&#xFF0C; 1)&#x548C;2)&#x90FD;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x955C;&#x50CF;&#xFF0C; 3)&#x548C;4)&#x5219;&#x53EA;&#x9700;&#x8981;&#x4FEE;&#x6539;POD&#x7684;spec&#xFF0C; &#x80FD;&#x9002;&#x7528;&#x4E8E;&#x6240;&#x6709;&#x955C;&#x50CF;&#x3002;&#x4E0D;&#x8FC7;&#x8FD8;&#x662F;&#x6709;&#x4E0D;&#x65B9;&#x4FBF;&#x7684;&#x5730;&#x65B9;&#xFF1A;</p>
+<ul>
+<li>&#x6BCF;&#x4E2A;&#x5DE5;&#x4F5C;&#x8D1F;&#x8F7D;&#x7684;yaml&#x90FD;&#x8981;&#x505A;&#x4FEE;&#x6539;&#xFF0C;&#x6BD4;&#x8F83;&#x9EBB;&#x70E6;</li>
+<li>&#x5BF9;&#x4E8E;&#x901A;&#x8FC7;helm&#x521B;&#x5EFA;&#x7684;&#x5DE5;&#x4F5C;&#x8D1F;&#x8F7D;&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x6539;helm charts</li>
+</ul>
+<p>&#x65B9;&#x6CD5;5)&#x5BF9;&#x96C6;&#x7FA4;&#x4F7F;&#x7528;&#x8005;&#x6700;&#x7701;&#x4E8B;&#xFF0C;&#x7167;&#x5E38;&#x63D0;&#x4EA4;&#x5DE5;&#x4F5C;&#x8D1F;&#x8F7D;&#x5373;&#x53EF;&#x3002;&#x4E0D;&#x8FC7;&#x521D;&#x671F;&#x9700;&#x8981;&#x4E00;&#x5B9A;&#x7684;&#x5F00;&#x53D1;&#x5DE5;&#x4F5C;&#x91CF;&#x3002;</p>
+<h4 id="&#x89C4;&#x907F;&#x65B9;&#x6848;&#x4E09;&#xFF1A;&#x4F7F;&#x7528;&#x672C;&#x5730;dns&#x7F13;&#x5B58;">&#x89C4;&#x907F;&#x65B9;&#x6848;&#x4E09;&#xFF1A;&#x4F7F;&#x7528;&#x672C;&#x5730;DNS&#x7F13;&#x5B58;</h4>
+<p>&#x5BB9;&#x5668;&#x7684;DNS&#x8BF7;&#x6C42;&#x90FD;&#x53D1;&#x5F80;&#x672C;&#x5730;&#x7684;DNS&#x7F13;&#x5B58;&#x670D;&#x52A1;(dnsmasq, nscd&#x7B49;)&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x8D70;DNAT&#xFF0C;&#x4E5F;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;conntrack&#x51B2;&#x7A81;&#x3002;&#x53E6;&#x5916;&#x8FD8;&#x6709;&#x4E2A;&#x597D;&#x5904;&#xFF0C;&#x5C31;&#x662F;&#x907F;&#x514D;DNS&#x670D;&#x52A1;&#x6210;&#x4E3A;&#x6027;&#x80FD;&#x74F6;&#x9888;&#x3002;</p>
+<p>&#x4F7F;&#x7528;&#x672C;&#x5730;DNS&#x7F13;&#x5B58;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ul>
+<li>&#x6BCF;&#x4E2A;&#x5BB9;&#x5668;&#x81EA;&#x5E26;&#x4E00;&#x4E2A;DNS&#x7F13;&#x5B58;&#x670D;&#x52A1;</li>
+<li>&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x8FD0;&#x884C;&#x4E00;&#x4E2A;DNS&#x7F13;&#x5B58;&#x670D;&#x52A1;&#xFF0C;&#x6240;&#x6709;&#x5BB9;&#x5668;&#x90FD;&#x628A;&#x672C;&#x8282;&#x70B9;&#x7684;DNS&#x7F13;&#x5B58;&#x4F5C;&#x4E3A;&#x81EA;&#x5DF1;&#x7684;nameserver</li>
+</ul>
+<p>&#x4ECE;&#x8D44;&#x6E90;&#x6548;&#x7387;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x8003;&#x8651;&#x7684;&#x8BDD;&#xFF0C;&#x63A8;&#x8350;&#x540E;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x3002;</p>
+<h5 id="&#x5B9E;&#x65BD;&#x529E;&#x6CD5;">&#x5B9E;&#x65BD;&#x529E;&#x6CD5;</h5>
+<p>&#x6761;&#x6761;&#x5927;&#x8DEF;&#x901A;&#x7F57;&#x9A6C;&#xFF0C;&#x4E0D;&#x7BA1;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6700;&#x7EC8;&#x5230;&#x8FBE;&#x4E0A;&#x9762;&#x63CF;&#x8FF0;&#x7684;&#x6548;&#x679C;&#x5373;&#x53EF;&#x3002;</p>
+<p>POD&#x4E2D;&#x8981;&#x8BBF;&#x95EE;&#x8282;&#x70B9;&#x4E0A;&#x7684;DNS&#x7F13;&#x5B58;&#x670D;&#x52A1;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8282;&#x70B9;&#x7684;IP&#x3002; &#x5982;&#x679C;&#x8282;&#x70B9;&#x4E0A;&#x7684;&#x5BB9;&#x5668;&#x90FD;&#x8FDE;&#x5728;&#x4E00;&#x4E2A;&#x865A;&#x62DF;bridge&#x4E0A;&#xFF0C; &#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;bridge&#x7684;&#x4E09;&#x5C42;&#x63A5;&#x53E3;&#x7684;IP(&#x5728;TKE&#x4E2D;&#xFF0C;&#x8FD9;&#x4E2A;&#x4E09;&#x5C42;&#x63A5;&#x53E3;&#x53EB;cbr0)&#x3002; &#x8981;&#x786E;&#x4FDD;DNS&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x76D1;&#x542C;&#x8FD9;&#x4E2A;&#x5730;&#x5740;&#x3002;</p>
+<p>&#x5982;&#x4F55;&#x628A;POD&#x7684;/etc/resolv.conf&#x4E2D;&#x7684;nameserver&#x8BBE;&#x7F6E;&#x4E3A;&#x8282;&#x70B9;IP&#x5462;&#xFF1F;</p>
+<p>&#x4E00;&#x4E2A;&#x529E;&#x6CD5;&#xFF0C;&#x662F;&#x8BBE;&#x7F6E; POD.spec.dnsPolicy &#x4E3A; &quot;Default&quot;&#xFF0C; &#x610F;&#x601D;&#x662F;POD&#x91CC;&#x9762;&#x7684; /etc/resolv.conf&#xFF0C; &#x4F7F;&#x7528;&#x8282;&#x70B9;&#x4E0A;&#x7684;&#x6587;&#x4EF6;&#x3002;&#x7F3A;&#x7701;&#x4F7F;&#x7528;&#x8282;&#x70B9;&#x4E0A;&#x7684; /etc/resolv.conf(&#x5982;&#x679C;kubelet&#x901A;&#x8FC7;&#x53C2;&#x6570;--resolv-conf&#x6307;&#x5B9A;&#x4E86;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#xFF0C;&#x5219;&#x4F7F;&#x7528;--resolv-conf&#x6240;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;)&#x3002;</p>
+<p>&#x53E6;&#x4E00;&#x4E2A;&#x529E;&#x6CD5;&#xFF0C;&#x662F;&#x7ED9;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x7684;kubelet&#x6307;&#x5B9A;&#x4E0D;&#x540C;&#x7684;--cluster-dns&#x53C2;&#x6570;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E3A;&#x8282;&#x70B9;&#x7684;IP&#xFF0C;POD.spec.dnsPolicy&#x4ECD;&#x7136;&#x4F7F;&#x7528;&#x7F3A;&#x7701;&#x503C;&quot;ClusterFirst&quot;&#x3002; kops&#x9879;&#x76EE;&#x751A;&#x81F3;&#x6709;&#x4E2A;issue&#x5728;&#x8BA8;&#x8BBA;&#x5982;&#x4F55;&#x5728;&#x90E8;&#x7F72;&#x96C6;&#x7FA4;&#x65F6;&#x8BBE;&#x7F6E;&#x597D;--cluster-dns&#x6307;&#x5411;&#x8282;&#x70B9;IP: <a href="https://github.com/kubernetes/kops/issues/5584" target="_blank">https://github.com/kubernetes/kops/issues/5584</a></p>
+<h2 id="&#x53C2;&#x8003;&#x8D44;&#x6599;">&#x53C2;&#x8003;&#x8D44;&#x6599;</h2>
+<ul>
+<li>Racy conntrack and DNS lookup timeouts: <a href="https://www.weave.works/blog/racy-conntrack-and-dns-lookup-timeouts" target="_blank">https://www.weave.works/blog/racy-conntrack-and-dns-lookup-timeouts</a></li>
+<li>5 &#x2013; 15s DNS lookups on Kubernetes? :  <a href="https://blog.quentin-machu.fr/2018/06/24/5-15s-dns-lookups-on-kubernetes/" target="_blank">https://blog.quentin-machu.fr/2018/06/24/5-15s-dns-lookups-on-kubernetes/</a></li>
+<li>DNS intermittent delays of 5s: <a href="https://github.com/kubernetes/kubernetes/issues/56903" target="_blank">https://github.com/kubernetes/kubernetes/issues/56903</a></li>
+<li>&#x8BB0;&#x4E00;&#x6B21;Docker/Kubernetes&#x4E0A;&#x65E0;&#x6CD5;&#x89E3;&#x91CA;&#x7684;&#x8FDE;&#x63A5;&#x8D85;&#x65F6;&#x539F;&#x56E0;&#x63A2;&#x5BFB;&#x4E4B;&#x65C5;: <a href="https://mp.weixin.qq.com/s/VYBs8iqf0HsNg9WAxktzYQ" target="_blank">https://mp.weixin.qq.com/s/VYBs8iqf0HsNg9WAxktzYQ</a> </li>
+</ul>
+<footer class="page-footer"><span class="copyright">&#xA9; roc all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">Updated at
+2019-12-14 03:07:53
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="lost-packets-once-enable-tcp-tw-recycle.html" class="navigation navigation-prev " aria-label="Previous page: 开启tcp_tw_recycle内核参数在NAT环境会丢包">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="rancher-remove-node.html" class="navigation navigation-next " aria-label="Next page: Rancher 清除 Node 导致集群异常">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"部分 DNS 查询延迟的原因与解决方案","level":"6.3","depth":1,"next":{"title":"Rancher 清除 Node 导致集群异常","level":"6.4","depth":1,"path":"damn/rancher-remove-node.md","ref":"damn/rancher-remove-node.md","articles":[]},"previous":{"title":"开启tcp_tw_recycle内核参数在NAT环境会丢包","level":"6.2","depth":1,"path":"damn/lost-packets-once-enable-tcp-tw-recycle.md","ref":"damn/lost-packets-once-enable-tcp-tw-recycle.md","articles":[]},"dir":"ltr"},"config":{"plugins":["mermaid","github","editlink","-lunr","-search","search-plus","tbfed-pagefooter","codesnippet","splitter","page-toc-button","image-captions","back-to-top-button","-lunr","-search","search-plus","github-buttons@2.1.0","favicon@^0.0.2","3-ba","disqus","theme-default"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"&copy roc","modify_label":"Updated at","modify_format":"YYYY-MM-DD HH:mm:ss"},"disqus":{"useIdentifier":false,"shortName":"tencentcloudcontainerteam-github-io"},"github":{"url":"https://github.com/TencentCloudContainerTeam/tke-handbook"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/TencentCloudContainerTeam/tke-handbook/blob/master"},"splitter":{},"mermaid":{},"codesnippet":{},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"github-buttons":{"repo":"TencentCloudContainerTeam/tke-handbook","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"014238987a800856443fcb5e465f4cdd"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{},"image-captions":{"caption":"图片 - _CAPTION_","variable_name":"_pictures"}},"theme":"default","author":"roc","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"toc":true},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"best-practice/efficient-kubectl.html#fig8.3.1","level":"8.3","list_caption":"Figure: kk","alt":"kk","nro":1,"url":"https://imroc.io/assets/blog/dash_kk.png","index":1,"caption_template":"图片 - _CAPTION_","label":"kk","attributes":{},"skip":false,"key":"8.3.1"},{"backlink":"best-practice/efficient-kubectl.html#fig8.3.2","level":"8.3","list_caption":"Figure: demo","alt":"demo","nro":2,"url":"https://imroc.io/assets/blog/k.gif","index":2,"caption_template":"图片 - _CAPTION_","label":"demo","attributes":{},"skip":false,"key":"8.3.2"},{"backlink":"best-practice/wildcard-domain-forward.html#fig8.4.1","level":"8.4","list_caption":"Figure: nginx.conf","alt":"nginx.conf","nro":3,"url":"https://imroc.io/assets/blog/nginx-wilcard-conf.png","index":1,"caption_template":"图片 - _CAPTION_","label":"nginx.conf","attributes":{},"skip":false,"key":"8.4.1"}]},"title":"TKE Handbook","language":"zh-hans","links":{"sidebar":{"roc":"https://imroc.io"}},"gitbook":">= 3.2.2","description":"TKE 指南"},"file":{"path":"damn/dns-lookup-delay.md","mtime":"2019-12-13T19:07:53.386Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-12-13T19:08:45.065Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-editlink/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-3-ba/plugin.js"></script>
+        
+    
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
